@@ -1,0 +1,263 @@
+openapi: 3.0.0
+info:
+  title: Toman Escrow account service integration API
+  description: The swagger of Toman Escrow account service
+  version: v1
+servers:
+  - url:  https://api.tomanpay.net
+    description: Production server
+    variables:
+      protocol:
+        enum:
+          - https
+        default: https
+paths:
+  /escrow/api/v1/providers/{provider_slug}/deals:
+    post:
+      security:
+        - OAuth2: [deal:write]
+      tags:
+        - deal
+      description: >+
+        Create a specific deal
+        
+        Returns an IntegrationResponse object.
+      parameters:
+        - name: provider_slug
+          in: path
+          description: unique provider's slug
+          example: pro_slug
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DealCreationRequestDTO'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DealCreationResponseDTO'
+        401:
+          description: Authentication failed
+  /escrow/api/v1/providers/{provider_slug}/deals/{trace_number}/verify:
+    patch:
+      tags:
+        - deal
+      description: >+
+        Verify a successful funded deal following redirection from the Toman escrow service
+        to the specified redirect URL during the deal creation process.
+      parameters:
+        - name: provider_slug
+          in: path
+          description: unique provider's slug
+          example: pro_slug
+          required: true
+          schema:
+            type: string
+        - name: trace_number
+          in: path
+          description: recently created deal's trace number.
+          example: '15153690302956323900'
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Success
+        401:
+          description: Authentication failed
+  /escrow/api/v1/providers/{provider_slug}/shops:
+    post:
+      security:
+        - OAuth2: [ shop:write ]
+      tags:
+        - shop
+      description: >+
+        Create a shop under the provider's realm.
+      parameters:
+        - name: provider_slug
+          in: path
+          description: unique provider's slug
+          example: pro_slug
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ShopCreationRequestDTO'
+      responses:
+        201:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ShopCreationResponseDTO'
+        401:
+          description: Authentication failed
+components:
+  schemas:
+    DealCreationRequestDTO:
+      type: object
+      properties:
+        res_number:
+          type: string
+          maximum: 100
+          example: 'unique_gibberish'
+          required: true
+          description: reserved number like basket id or anything unique on provider side.
+        redirect_url:
+          type: string
+          required: true
+          example: https://provider-domain.com/escrow-callback
+          description: valid redirect URL hosted on provider's service for redirection after payer's payment.
+        payee_id:
+          type: string
+          required: true
+          example: vyya1sy1fn7c
+        category:
+            $ref: '#/components/schemas/CategoryDTO'
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemDTO'
+    CategoryDTO:
+      type: object
+      properties:
+        type:
+          type: string
+          required: true
+          enum: [Goods Rental Service]
+          example: Goods
+    ItemDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          maximum: 150
+          required: true
+          description: item's name with 150 maximum characters and utf-8 unicode.
+        price:
+          type: integer
+          minimum: 50000
+          maximum: 9223372036854775807
+          example: 80000
+          required: true
+          description: item's amount as rial.
+        quantity:
+          type: integer
+          minimum: 1
+          maximum: 65535
+          default: 1
+          required: true
+          description: quantity of this item.
+        description:
+          type: string
+          maximum: 65535
+          example: optional description...
+          required: false
+          description: optional description about this item with 65535 maximum characters and utf-8 unicode.
+    DealCreationResponseDTO:
+      type: object
+      properties:
+        res_number:
+          type: string
+          example: 'unique_gibberish'
+          readOnly: true
+          nullable: false
+          required: true
+          description: passed provider's unique reserved number at the beginning of deal creation.
+        trace_number:
+          type: string
+          example: 15153690302956323900
+          readOnly: true
+          nullable: false
+          required: true
+          description: created deal's unique trace number.
+        redirect_url:
+          type: string
+          example: https://escrow.tomanpay.net/basket/4758473897237341514
+          readOnly: true
+          nullable: false
+          required: true
+          description: the address of the user's next destination to be redirected by the service provider.
+    ShopCreationRequestDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          maximum: 50
+          example: شیپ شاپ
+          required: true
+          description: Shop's name
+        owner_mobile_number:
+          type: string
+          pattern: '^((\+98)|0)9\d{9}$'
+          example: '+989000000000'
+          required: true
+        owner_full_name:
+          type: string
+          maximum: 100
+          example: سید علیرضا رضایی اصل
+          required: false
+          description: owner_first_name + owner_last_name
+        owner_national_code:
+          type: string
+          required: false
+          example: 1810000000
+        owner_birthday:
+          type: string
+          format: date-time
+          example:  2017-07-21 17:32:28.426424
+          required: false
+          description: datetime with format YYYY-MM-DD HH:MM[:ss[.uuuuuu]][TZ]
+        owner_iban:
+          type: string
+          minimum: 26
+          maximum: 26
+          pattern: '^IR\d{24}$'
+          example: IR000000000000000000000000
+          required: false
+        landline_number:
+          type: string
+          pattern: '^((\+98)|0)\d{4,13}$'
+          required: false
+          example: +982133333333
+          description: شماره پشتیبانی فروشگاه
+    ShopCreationResponseDTO:
+      type: object
+      properties:
+        slug:
+          type: string
+          readOnly: true
+          nullable: false
+          required: true
+          example: 3bhn3ai1lr5g3
+        is_active:
+          type: boolean
+          readOnly: true
+          nullable: false
+          required: true
+          example: true
+  securitySchemes:
+    Toman OAuth2ClientCredentials:
+      type: oauth2
+      description: This API uses OAuth 2 with the client credentials flow.
+      flows:
+        clientCredentials:
+          tokenUrl: https://accounts.tomanpay.net/realms/{realm}/protocol/openid-connect/token
+          scopes:
+            deal:write: Grants write access on deals
+            shop:write: Grants write access on shops
+security:
+  - OAuth2:
+      - deal:write
+      - shop:write

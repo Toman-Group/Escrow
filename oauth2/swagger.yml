@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  title: Toman OAuth2.0 Service
+  description: This is a API reference for the Toman Oauth2.0 service
+  version: '1'
+servers:
+  - url: https://accounts.tomanpay.net
+    description: Production server
+    variables:
+      protocol:
+        enum:
+          - https
+        default: https
+paths:
+  /realms/{realm}/protocol/openid-connect/token:
+    post:
+      tags:
+        - Token
+      description: >+
+        Obtain AccessToken with client credentials or valid RefreshToken.
+       
+        
+        Returns an AccessToken object.
+      parameters:
+        - name: realm
+          in: path
+          description: realm name
+          example: toman
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AccessTokenRequestDTO'
+      responses:
+        2XX:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessTokenResponseDTO'
+        4XX:
+          description: Failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessTokenErrorResponseDTO'
+components:
+  schemas:
+    AccessTokenRequestDTO:
+      type: object
+      required:
+        - grant_type
+        - client_id
+        - client_secret
+      properties:
+        grant_type:
+          type: string
+          enum: [client_credentials refresh_token]
+        client_id:
+          type: string
+          example: client***id
+        client_secret:
+          type: string
+          example: client***secret
+        refresh_token:
+          type: string
+          example: eyJhbGciOiJIUzI1.eyJleHAiOjE3MTE0NjQx.NjYsImlhdCI6MTcxMDYwMDE2Niwia
+    AccessTokenResponseDTO:
+      type: object
+      properties:
+        access_token:
+          type: string
+          example: QekExdjVfaEh0RnlVIn0.eyJleHAiOjE3MTA2ODI4NTQs.p84_s2XOuPSyFQ10dOqCu4KufzM4BGko
+        expires_in:
+          type: integer
+          readOnly: true
+          example: 86400
+        refresh_expires_in:
+          type: integer
+          readOnly: true
+          example: 0
+        token_type:
+          type: string
+          readOnly: true
+          example: Bearer
+        not-before-policy:
+          type: integer
+          readOnly: true
+          example: 0
+        scope:
+          type: string
+          readOnly: true
+          example: profile email
+    AccessTokenErrorResponseDTO:
+      type: object
+      properties:
+        error:
+          type: string
+        error_description:
+          type: string
