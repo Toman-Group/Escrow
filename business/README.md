@@ -2,7 +2,7 @@
 
 This guide provides instructions for interacting marketplaces with Toman escrow account OAuth 2.0 service to obtain access tokens, and then utilizing the obtained JWT token to access the main service APIs.
 
-* [Toman Escrow Account Service OpenAPI Specification](https://docs.tomanpay.net/swagger/escrow/c2c.html)
+* [Toman Escrow Account Service OpenAPI Specification](https://docs.tomanpay.net/swagger/c2c.html)
 
 
 ## Step 1: Working with OAuth 2.0 Service
