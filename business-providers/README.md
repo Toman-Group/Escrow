@@ -2,8 +2,7 @@
 
 This guide provides instructions for interacting marketplaces with Toman escrow account OAuth 2.0 service to obtain access tokens, and then utilizing the obtained JWT token to access the main service APIs.
 
-* [Toman OAuth2.0 Service OpenAPI Specification](https://docs.tomanpay.net/swagger/oauth2/)
-* [Toman Escrow Account Service OpenAPI Specification](https://docs.tomanpay.net/swagger/escrow/)
+* [Toman Escrow Account Service OpenAPI Specification](https://docs.tomanpay.net/swagger/escrow/b2c.html)
 
 
 ## Step 1: Working with OAuth 2.0 Service
@@ -49,7 +48,7 @@ After obtaining a valid JWT token from the OAuth 2.0 service, you can use it to 
 
 ### Create Deal:
     Note: deal:create scope is required for this resource.
-#### POST /escrow/api/v1/integrations/{provider_slug}/deals
+#### POST /escrow/api/v1/providers/{provider_slug}/payees/{payee_slug}/deals
 
 - **Security**: OAuth2 (Scope: deal:write)
 - **Description**: Create a specific deal
@@ -62,53 +61,31 @@ After obtaining a valid JWT token from the OAuth 2.0 service, you can use it to 
 
 
 ```shell
-curl --location 'https://api.tomanpay.net/escrow/api/v1/integrations/{provider_slug}/deals' \
---header 'Authorization: Bearer <obtained_access_token>' \
+curl --location 'https://api.tomanpay.net/escrow/api/v1/providers/{provider_slug}/payees/{payee_slug}/deals' \
+--header 'Authorization: Bearer <OBTAINED_ACCESS_TOKEN>' \
 --header 'Content-Type: application/json' \
 --data '{
-  "res_number": "unique_gibberish",
-  "redirect_url": "https://provider-domain.com/escrow-callback-after-payment",
-  "payee_id": "vyya1sy1fn7c",
-  "category": {
-    "type": "Goods"
-  },
-  "items": [
+  "res_number":"123123123",
+  "redirect_url":"https://<YOUR_DOMAIN>/<ENDPOINT_TO_CALL_AFTER_PAYMENT>",
+  "category":"Goods",
+  "items":[
     {
-        "name": "book",
-        "amount": 80000,
-        "quantity": 1,
-        "description": "optional description..."
-    },
-    {
-        "name": "chair",
-        "amount": 800000,
-        "quantity": 2,
-        "description": "optional description..."
+      "name": "string",
+      "price": 80000,
+      "quantity": 1,
+      "description": "توضیحات",
+      "image_urls": [
+        "https://en.wikipedia.org/wiki/Cicada_3301",
+        "https://en.wikipedia.org/wiki/Pokémon"
+      ]
     }
   ]
 }'
 ```
+
 2 - After redirecting the user to the specified `redirect_url`, we escort him/her to the payment gateway. Upon successful payment, we redirect the payer back to the predefined `redirect_url`  set during the deal creation process and notify your service of the payment result.
 
-    Note: payment's result info contains res_number, trace_number and payment_result as sucess of fail.
-
-3 - Upon receiving the aforementioned call and conduct validation, proceed to verify the Toman escrow account service accordingly.
-
-#### PATCH /escrow/api/v1/integrations/{provider_slug}/deals/{trace_number}/verify
-
-- **Description**: Verify a successful funded deal following redirection from the Toman escrow service to the specified redirect URL during the deal creation process.
-- **Parameters**:
-  - `provider_slug` (path): Unique provider's slug
-  - `trace_number` (path): Recently created deal's trace number
-- **Responses**:
-  - `204`: Success
-  - `401`: Authentication failed
-
-```shell
-curl --location --request PATCH 'https://api.tomanpay.net/escrow/api/v1/integrations/{provider_slug}/deals/{trace_number}/verify' \
---header 'Authorization: Bearer <obtained_access_token>'
-```
-
+    Note: payment's result info contains res_number, trace_number and payment_result as success or fail.
 
 ## Additional Notes
 
