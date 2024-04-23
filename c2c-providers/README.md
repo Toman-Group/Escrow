@@ -50,7 +50,7 @@ After obtaining a valid JWT token from the OAuth 2.0 service, you can use it to 
 
 ### Create Deal:
 
-    Note: deal:create scope is required for this resource.
+    Note: deal:write scope is required for this resource.
 
 #### POST /escrow/api/v1/providers//deals
 
