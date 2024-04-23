@@ -95,4 +95,4 @@ curl --location 'https://api.tomanpay.net/escrow/api/v1/providers/{provider_slug
 
 Ensure that you securely store and manage access tokens and refresh tokens to prevent unauthorized access to resources.
 
-### `<em>`If you have any additional questions, please don't hesitate to contact us. Furthermore, if you have any suggestions to enhance this documentation, we welcome your feedback.`</em>`
+### *`Should you have any additional questions, please don't hesitate to contact us. Furthermore, if you have any suggestions to enhance this documentation, we welcome your feedback`*
