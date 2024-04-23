@@ -1,4 +1,4 @@
-# Toman escrow account OAuth 2.0 and API Usage Guide
+# Escrow API Usage Guide - B2C Platforms
 
 This guide provides instructions about how to integrate Toman Escrow service into your B2C platform. You can checkout our API references for further details in the link below
 

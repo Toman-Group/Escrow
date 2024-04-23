@@ -1,4 +1,4 @@
-# Escrow API Usage Guide
+# Escrow API Usage Guide - C2C Platforms
 
 This guide provides instructions about how to integrate Toman Escrow service into your C2C platform. You can checkout our API references for further details in the link below
 
