@@ -14,15 +14,12 @@ To obtain an access token from the OAuth 2.0 service, follow these steps:
 
 1 - Authentication: Authenticate your client application and obtain access token with the OAuth 2.0 service using the appropriate credentials (`client_id` and `client_secret`).
 
-    Note: deal:write scope is required for deal creation flow.
-
 ```shell
 curl --location 'https://accounts.tomanpay.net/realms/toman/protocol/openid-connect/token' \
 --header 'Content-Type: application/x-www-form-urlencoded' \
 --data-urlencode 'grant_type=client_credentials' \
 --data-urlencode 'client_id=<your_client_id>' \
 --data-urlencode 'client_secret=<your_client_secret>'
---data-urlencode 'scope=deal:write'
 ```
 
 ### Refreshing Access Token
@@ -50,11 +47,8 @@ After obtaining a valid JWT token from the OAuth 2.0 service, you can use it to 
 
 ### Create Deal:
 
-    Note: deal:write scope is required for this resource.
-
 #### POST /escrow/api/v1/providers/{provider_slug}/deals
 
-- **Security**: OAuth2 (Scope: deal:write)
 - **Description**: Create a specific deal
 - **Parameters**:
   - `provider_slug` (path): Unique provider's slug
