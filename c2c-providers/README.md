@@ -87,7 +87,7 @@ curl --location 'https://api.tomanpay.net/escrow/api/v1/providers/{provider_slug
 }'
 ```
 
-2 - After redirecting the user to the specified `redirect_url`, we escort him/her to the payment gateway. Upon successful payment, we redirect the payer back to the predefined `redirect_url`  set during the deal creation process and notify your service of the payment result.
+2 - After redirecting the user to the specified `redirect_url`, we escort payer to the payment gateway. Upon successful payment, we redirect the payer back to the predefined `redirect_url`  set during the deal creation process and notify your service of the payment result.
 
     Note: payment's result info contains res_number, trace_number and payment_result as success or fail.
 
