@@ -58,7 +58,7 @@ After obtaining a valid JWT token from the OAuth 2.0 service, you can use it to 
   - `401`: Authentication failed
 
 ```shell
-curl --location 'https://api.tomanpay.net/escrow/api/v1/providers/{provider_slug}/payees/{payee_slug}/deals' \
+curl --location 'https://api.tomanpay.net/escrow/api/v2/providers/{provider_slug}/payees/{payee_slug}/deals' \
 --header 'Authorization: Bearer <OBTAINED_ACCESS_TOKEN>' \
 --header 'Content-Type: application/json' \
 --data '{
@@ -87,5 +87,15 @@ curl --location 'https://api.tomanpay.net/escrow/api/v1/providers/{provider_slug
 ## Additional Notes
 
 Ensure that you securely store and manage access tokens and refresh tokens to prevent unauthorized access to resources.
+
+## Test Environment
+
+In order to start testing APIs in a non-production environment you use testing environment:
+
+* For Oauth2.0 Requests:
+  * Use `keycloak-staging.qcluster.org` instead of `accounts.tomanpay.net` (You need different credentials from your production ones).
+
+* For Escrow API Requests:
+  * Use `escrow-api-staging.qcluster.org` instead of `api.tomanpay.net`.
 
 ### *`Should you have any additional questions, please don't hesitate to contact us. Furthermore, if you have any suggestions to enhance this documentation, we welcome your feedback`*
