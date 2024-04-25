@@ -58,7 +58,7 @@ After obtaining a valid JWT token from the OAuth 2.0 service, you can use it to 
   - `401`: Authentication failed
 
 ```shell
-curl --location 'https://api.tomanpay.net/escrow/api/v1/providers/{provider_slug}/deals' \
+curl --location 'https://api.tomanpay.net/escrow/api/v2/providers/{provider_slug}/deals' \
 --header 'Authorization: Bearer <OBTAINED_ACCESS_TOKEN>' \
 --header 'Content-Type: application/json' \
 --data '{
@@ -84,6 +84,16 @@ curl --location 'https://api.tomanpay.net/escrow/api/v1/providers/{provider_slug
 2 - After redirecting the user to the specified `redirect_url`, we escort payer to the payment gateway. Upon successful payment, we redirect the payer back to the predefined `redirect_url`  set during the deal creation process and notify your service of the payment result.
 
     Note: payment's result info contains res_number, trace_number and payment_result as success or fail.
+
+## Test Environment
+
+In order to start testing APIs in a non-production environment you use testing environment:
+
+* For Oauth2.0 Requests:
+  * Use `keycloak-staging.qcluster.org` instead of `accounts.tomanpay.net` (You need different credentials from your production ones).
+
+* For Escrow API Requests:
+  * Use `escrow-api-staging.qcluster.org` instead of `api.tomanpay.net`.
 
 ## Additional Notes
 
