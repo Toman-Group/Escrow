@@ -47,7 +47,7 @@ After obtaining a valid JWT token from the OAuth 2.0 service, you can use it to 
 
 ### Create Deal
 
-#### POST /escrow/api/v1/providers/{provider_slug}/payees/{payee_slug}/deals
+#### POST /escrow/api/v1/providers/{provider_slug}/businesses/{business_slug}/deals
 
 - **Description**: Create a specific deal
 - **Parameters**:
@@ -58,7 +58,7 @@ After obtaining a valid JWT token from the OAuth 2.0 service, you can use it to 
   - `401`: Authentication failed
 
 ```shell
-curl --location 'https://api.tomanpay.net/escrow/api/v2/providers/{provider_slug}/payees/{payee_slug}/deals' \
+curl --location 'https://api.tomanpay.net/escrow/api/v2/providers/{provider_slug}/businesses/{business_slug}/deals' \
 --header 'Authorization: Bearer <OBTAINED_ACCESS_TOKEN>' \
 --header 'Content-Type: application/json' \
 --data '{
