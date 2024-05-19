@@ -1,109 +1,95 @@
 # Escrow API Usage Guide - B2C Platforms
 
-This guide provides instructions about how to integrate Toman Escrow service into your B2C platform. You can checkout our API references for further details in the link below
+This guide provides instructions on how to integrate the Toman Escrow service into your B2C platform. For further details, you can refer to our [API documentation](https://docs.tomanpay.net/swagger/b2c.html).
 
-[Toman Escrow OpenAPI B2C Specification](https://docs.tomanpay.net/swagger/b2c.html)
+**Note**: Ensure you have a valid `client_id`, `client_secret`, and `app_slug`. For further details, please contact our team.
 
-## Step 1: Working with OAuth 2.0 Service
+## Table of Contents
 
-### Obtaining Access Token
+- [Obtaining an Access Token](#obtaining-an-access-token)
+- [Refreshing an Access Token](#refreshing-an-access-token)
+- [Detail of Provider](#detail-of-provider)
+- [Creation of Business](#creation-of-business)
+- [Creation of Deal](#creation-of-deal)
+- [Detail of Deal](#detail-of-deal)
+- [Change State of Deal](#change-state-of-deal)
+- [Additional Notes](#additional-notes)
+- [Test Environment](#test-environment)
+- [Contact Us](#contact-us)
 
-To obtain an access token from the OAuth 2.0 service, follow these steps:
+## Obtaining an Access Token
 
-    Note: In the initial step, ensure you possess a valid`client_id` and `client_secret`. For further details, please reach out to our team.
+Authenticate your client application and obtain an access token from the OAuth 2.0 service using your credentials (`client_id` and `client_secret`).
 
-1 - Authentication: Authenticate your client application and obtain access token with the OAuth 2.0 service using the appropriate credentials (`client_id` and `client_secret`).
+[Refer to Swagger](https://docs.tomanpay.net/swagger/b2c.html#/Authentication/post_realms__realm__protocol_openid_connect_token)
 
-```shell
-curl --location 'https://accounts.tomanpay.net/realms/toman/protocol/openid-connect/token' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---data-urlencode 'grant_type=client_credentials' \
---data-urlencode 'client_id=<your_client_id>' \
---data-urlencode 'client_secret=<your_client_secret>'
-```
+**Note**: Use `client_credentials` as the `grant_type` of the request.
 
-### Refreshing Access Token
+After obtaining a valid JWT token from the OAuth 2.0 service, you can use it to access the main service APIs.
 
-If the access token expires or becomes invalid, you can refresh it using a refresh token. Here's how:
+## Refreshing an Access Token
 
-Token Refresh Request: Send a token refresh request to the OAuth 2.0 service, providing the `refresh_token` and client credentials with desired refresh_token grant type.
+If the access token expires or becomes invalid, you can refresh it using a refresh token.
 
-Token Refresh Response: Receive a new access token and, optionally, a new refresh token in the response.
+[Refer to Swagger](https://docs.tomanpay.net/swagger/b2c.html#/Authentication/post_realms__realm__protocol_openid_connect_token)
 
-```shell
-curl --location 'https://accounts.tomanpay.net/realms/toman/protocol/openid-connect/token' \
---header 'Content-Type: application/x-www-form-urlencoded' \
---data-urlencode 'grant_type=refresh_token' \
---data-urlencode 'client_id=<your_client_id>' \
---data-urlencode 'client_secret=<your_client_secrete>' \
---data-urlencode 'refresh_token=<obtained_refresh_token>'
-```
+**Note**: Use `refresh_token` as the `grant_type` of the request.
 
-## Step 2: Working with Main Service APIs
+## Detail of Provider
 
-After obtaining a valid JWT token from the OAuth 2.0 service, you can use it to access the main service APIs. Follow these steps:
+This endpoint will return the data that was provided to us.
 
-1 - Create a deal using the following payload structure, and upon completion, redirect the current user to the specified `redirect_url` in response.
+[Refer to Swagger](https://docs.tomanpay.net/swagger/b2c.html#/Provider/get_escrow_api_v2_providers_me)
 
-### Create Deal
+## Creation of Business
 
-#### POST /escrow/api/v1/providers/{provider_slug}/businesses/{business_slug}/deals
+With this endpoint, you can add a shop/business that you want to activate Escrow for.
 
-- **Description**: Create a specific deal
-- **Parameters**:
-  - `provider_slug` (path): Unique provider's slug
-- **Request Body**: DealCreationRequestDTO
-- **Responses**:
-  - `201`: Created (DealCreationResponseDTO)
-  - `401`: Authentication failed
+[Refer to Swagger](https://docs.tomanpay.net/swagger/b2c.html#/Business/post_escrow_api_v2_providers__provider_slug__businesses)
 
-```shell
-curl --location 'https://api.tomanpay.net/escrow/api/v2/providers/{provider_slug}/businesses/{business_slug}/deals' \
---header 'Authorization: Bearer <OBTAINED_ACCESS_TOKEN>' \
---header 'Content-Type: application/json' \
---data '{
-  "res_number":"123123123",
-  "redirect_url":"https://<YOUR_DOMAIN>/<ENDPOINT_TO_CALL_AFTER_PAYMENT>",
-  "category":"Goods",
-  "items":[
-    {
-      "name": "string",
-      "price": 80000,
-      "quantity": 1,
-      "description": "توضیحات",
-      "image_urls": [
-        "https://en.wikipedia.org/wiki/Cicada_3301",
-        "https://en.wikipedia.org/wiki/Pokémon"
-      ]
-    }
-  ]
-}'
-```
+## Creation of Deal
 
-2 - After redirecting the user to the specified `redirect_url`, we escort payer to the payment gateway. Upon successful payment, we redirect the payer back to the predefined `redirect_url` set during the deal creation process and notify your service of the payment result.
+You can create a deal using the access token with the documents in the following link. Upon completion, redirect the current user to the specified `redirect_url` in the response.
 
-    Note: payment's result info contains res_number, trace_number and payment_result as success or fail.
+[Refer to Swagger](https://docs.tomanpay.net/swagger/b2c.html#/Deal/post_escrow_api_v2_providers__provider_slug__businesses__business_slug__deals)
+
+After redirecting the user to the specified `redirect_url`, we escort the payer to the payment gateway. Upon successful payment, we redirect the payer back to the predefined `redirect_url` set during the deal creation process and notify your service of the payment result.
+
+## Detail of Deal
+
+You can check the `state` and `sub_state` of the deal at any time with the following endpoint.
+
+[Refer to Swagger](https://docs.tomanpay.net/swagger/b2c.html#/Deal/get_escrow_api_v2_providers__provider_slug__deals__trace_number_)
+
+## Change State of Deal
+
+You can move the deal forward with one of the following actions:
+- `accept`: This action moves the deal forward and acts like the seller accepted their part of the deal.
+- `ship`: This action moves the deal forward and moves the deal to the shipment state.
+
+[Refer to Swagger](https://docs.tomanpay.net/swagger/b2c.html#/Deal/patch_escrow_api_v2_providers__provider_slug__deals__trace_number_)
 
 ## Additional Notes
 
-* Ensure that you securely store and manage access tokens and refresh tokens to prevent unauthorized access to resources.
-* For redirecting the seller of the deal to Toman WebApp you can use following template to create a URL:
- `<ENVIRONMENT_BASE_URL>/basket/{trace_number}`
+- Ensure that you securely store and manage access tokens and refresh tokens to prevent unauthorized access to resources.
+- To redirect the seller of the deal to the Toman WebApp, you can use the following template to create a URL: `<ENVIRONMENT_BASE_URL>/basket/{trace_number}`.
 
 ## Test Environment
 
-In order to start testing APIs in a non-production environment you use testing environment:
+To start testing APIs in a non-production environment, use the following base URLs:
 
-* For Oauth2.0 Requests Base URL:
-  * Staging: `https://keycloak-staging.qcluster.org`
-  * Production: `https://accounts.tomanpay.net`
+**OAuth 2.0 Requests Base URL:**
+- Staging: `https://keycloak-staging.qcluster.org`
+- Production: `https://accounts.tomanpay.net`
 
-* For Escrow API Base URL:
-  * Staging: `https://escrow-api-staging.qcluster.org`
-  * Production: `https://api.tomanpay.net`
+**Escrow API Base URL:**
+- Staging: `https://escrow-api-staging.qcluster.org`
+- Production: `https://api.tomanpay.net`
 
-* For Escrow WebApp Base URL:
-  * Staging: `https://escrow-staging-webapp.qcluster.org`
-  * Production: `https://escrow.tomanpay.net`
+**Escrow WebApp Base URL:**
+- Staging: `https://escrow-staging-webapp.qcluster.org`
+- Production: `https://escrow.tomanpay.net`
 
-### *`Should you have any additional questions, please don't hesitate to contact us. Furthermore, if you have any suggestions to enhance this documentation, we welcome your feedback`*
+## Contact Us
+
+If you have any additional questions, please don't hesitate to contact us. We also welcome any suggestions to enhance this documentation.
