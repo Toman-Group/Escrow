@@ -86,16 +86,24 @@ curl --location 'https://api.tomanpay.net/escrow/api/v2/providers/{provider_slug
 
 ## Additional Notes
 
-Ensure that you securely store and manage access tokens and refresh tokens to prevent unauthorized access to resources.
+* Ensure that you securely store and manage access tokens and refresh tokens to prevent unauthorized access to resources.
+* For redirecting the seller of the deal to Toman WebApp you can use following template to create a URL:
+ `<ENVIRONMENT_BASE_URL>/basket/{trace_number}`
 
 ## Test Environment
 
 In order to start testing APIs in a non-production environment you use testing environment:
 
-* For Oauth2.0 Requests:
-  * Use `keycloak-staging.qcluster.org` instead of `accounts.tomanpay.net` (You need different credentials from your production ones).
+* For Oauth2.0 Requests Base URL:
+  * Staging: `https://keycloak-staging.qcluster.org/`
+  * Production: `https://accounts.tomanpay.net/`
 
-* For Escrow API Requests:
-  * Use `escrow-api-staging.qcluster.org` instead of `api.tomanpay.net`.
+* For Escrow API Base URL:
+  * Staging: `https://escrow-api-staging.qcluster.org/`
+  * Production: `https://api.tomanpay.net/`
+
+* For Escrow WebApp Base URL:
+  * Staging: `https://escrow-staging-webapp.qcluster.org/`
+  * Production: `https://escrow.tomanpay.net/`
 
 ### *`Should you have any additional questions, please don't hesitate to contact us. Furthermore, if you have any suggestions to enhance this documentation, we welcome your feedback`*
