@@ -95,15 +95,15 @@ curl --location 'https://api.tomanpay.net/escrow/api/v2/providers/{provider_slug
 In order to start testing APIs in a non-production environment you use testing environment:
 
 * For Oauth2.0 Requests Base URL:
-  * Staging: `https://keycloak-staging.qcluster.org/`
-  * Production: `https://accounts.tomanpay.net/`
+  * Staging: `https://keycloak-staging.qcluster.org`
+  * Production: `https://accounts.tomanpay.net`
 
 * For Escrow API Base URL:
-  * Staging: `https://escrow-api-staging.qcluster.org/`
-  * Production: `https://api.tomanpay.net/`
+  * Staging: `https://escrow-api-staging.qcluster.org`
+  * Production: `https://api.tomanpay.net`
 
 * For Escrow WebApp Base URL:
-  * Staging: `https://escrow-staging-webapp.qcluster.org/`
-  * Production: `https://escrow.tomanpay.net/`
+  * Staging: `https://escrow-staging-webapp.qcluster.org`
+  * Production: `https://escrow.tomanpay.net`
 
 ### *`Should you have any additional questions, please don't hesitate to contact us. Furthermore, if you have any suggestions to enhance this documentation, we welcome your feedback`*
