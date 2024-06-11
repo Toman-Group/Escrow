@@ -6,6 +6,7 @@ This guide provides instructions on how to integrate the Toman Escrow service in
 
 ## Table of Contents
 
+- [Flow of a Deal in Escrow](#flow-of-a-deal-in-escrow)
 - [Obtaining an Access Token](#obtaining-an-access-token)
 - [Refreshing an Access Token](#refreshing-an-access-token)
 - [Detail of Provider](#detail-of-provider)
@@ -16,6 +17,10 @@ This guide provides instructions on how to integrate the Toman Escrow service in
 - [Additional Notes](#additional-notes)
 - [Test Environment](#test-environment)
 - [Contact Us](#contact-us)
+
+
+## Flow of a Deal in Escrow
+![Purchase drawio](https://github.com/Toman-Group/Escrow/assets/15687474/2770096c-f87e-4d1c-9a14-679646f09553)
 
 ## Obtaining an Access Token
 
