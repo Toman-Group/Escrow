@@ -17,6 +17,7 @@ This guide provides instructions on how to integrate the Toman Escrow service in
 - [Change State of Deal](#change-state-of-deal)
 - [Additional Notes](#additional-notes)
 - [Test Environment](#test-environment)
+- [API Usage Flow](#api-usage-flow)
 - [Contact Us](#contact-us)
 
 ## Flow of a Deal in Escrow
@@ -101,6 +102,35 @@ To start testing APIs in a non-production environment, use the following base UR
 **Escrow WebApp Base URL:**
 - Staging: `https://escrow-staging-webapp.qcluster.org`
 - Production: `https://escrow.tomanpay.net`
+
+## API Usage Flow
+
+1. **Obtaining an Access Token**:
+   - First, get an access token by calling the OAuth 2.0 service using your `client_id` and `client_secret`.
+
+2. **Refreshing an Access Token**:
+   - If the access token expires, refresh it using a refresh token. You can know the expiration time from the `expires_in` field returned in the access token response.
+
+3. **Validating the Access Token**:
+   - To ensure your token is valid, call the `Detail of Provider` endpoint.
+
+4. **Creating a Business**:
+   - If you need to create a new business, call the `Creation of Business` endpoint. If the business is already created, this step can be skipped.
+
+5. **Creating a Deal**:
+   - Create a deal by calling the `Creation of Deal` endpoint. Redirect the user to the specified `redirect_url` in the response.
+
+6. **Getting Deal Details**:
+   - For information about the created deal or any previous deals, call the `Detail of Deal` endpoint using the `trace_number`.
+
+7. **Verifying the Deal**:
+   - If you opted to manually verify the deal, call the `Verify the Deal` endpoint within 12 hours after payment.
+
+8. **Changing the State of the Deal**:
+   - If you have opted for us to manage the state transitions:
+     - Call the `Change State of Deal` endpoint with the action "accept" to set the payee for the deal.
+     - Then call the endpoint again with the action "ship" to move the deal to "Funded, Sent".
+   - If the deal price is fixed by you, the payee will be set during the deal creation.
 
 ## Contact Us
 
