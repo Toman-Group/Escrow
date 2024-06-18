@@ -19,8 +19,8 @@ This guide provides instructions on how to integrate the Toman Escrow service in
 - [Test Environment](#test-environment)
 - [Contact Us](#contact-us)
 
-
 ## Flow of a Deal in Escrow
+
 ![Purchase drawio](https://github.com/Toman-Group/Escrow/assets/15687474/2770096c-f87e-4d1c-9a14-679646f09553)
 
 ## Obtaining an Access Token
@@ -69,9 +69,7 @@ You can check the `state` and `sub_state` of the deal at any time with the follo
 
 ## Verify the Deal
 
-One of our settings allows you to either manually verify the created deal or let us assume it is verified.
-If you choose to manually verify the deal, its status after payment will be "Funded, New", and you have 12 hours to call the following endpoint.
-If we assume the deal is verified, after successful payment, the payer will land on Escrow, and the deal will be moved to "Funded, Init".
+One of our settings allows you to either manually verify the created deal or let us assume it is verified. If you choose to manually verify the deal, its status after payment will be "Funded, New," and you have 12 hours to call the following endpoint. If we assume the deal is verified, after successful payment, the payer will land on Escrow, and the deal will be moved to "Funded, Init."
 
 [Refer to Swagger](https://docs.tomanpay.net/swagger/b2c.html#/Deal/patch_escrow_api_v2_providers__provider_slug__deals__trace_number__verify_)
 
