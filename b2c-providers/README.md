@@ -13,6 +13,7 @@ This guide provides instructions on how to integrate the Toman Escrow service in
 - [Creation of Business](#creation-of-business)
 - [Creation of Deal](#creation-of-deal)
 - [Detail of Deal](#detail-of-deal)
+- [Verify the Deal](#verify-the-deal)
 - [Change State of Deal](#change-state-of-deal)
 - [Additional Notes](#additional-notes)
 - [Test Environment](#test-environment)
@@ -65,6 +66,14 @@ After redirecting the user to the specified `redirect_url`, we escort the payer 
 You can check the `state` and `sub_state` of the deal at any time with the following endpoint.
 
 [Refer to Swagger](https://docs.tomanpay.net/swagger/b2c.html#/Deal/get_escrow_api_v2_providers__provider_slug__deals__trace_number_)
+
+## Verify the Deal
+
+One of our settings allows you to either manually verify the created deal or let us assume it is verified.
+If you choose to manually verify the deal, its status after payment will be "Funded, New", and you have 12 hours to call the following endpoint.
+If we assume the deal is verified, after successful payment, the payer will land on Escrow, and the deal will be moved to "Funded, Init".
+
+[Refer to Swagger](https://docs.tomanpay.net/swagger/b2c.html#/Deal/patch_escrow_api_v2_providers__provider_slug__deals__trace_number__verify_)
 
 ## Change State of Deal
 
