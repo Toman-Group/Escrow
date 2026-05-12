@@ -57,7 +57,7 @@ Example use cases:
 * Merchant platforms
 * Service providers
 
-#### Initiation Setting
+#### Initiation
 
 This setting enables payer to modify the initial deal details, such as:
 
@@ -68,7 +68,7 @@ before proceeding with payment.
 
 If disabled, the payer must follow the original deal terms defined by the payee, such as purchasing an item with a fixed price from a shop.
 
-#### Verification Setting
+#### Verification
 
 This setting enables the payee or service provider to receive a callback after payment and perform additional verification before the transaction proceeds.
 
@@ -78,7 +78,7 @@ This is commonly used for:
 * Inventory verification
 * Order approval systems
 
-#### Controlled by Provider Setting
+#### Controlled by Provider
 
 This setting allows the service provider to manage transaction actions such as accepting and shipping the deal on behalf of the payee.
 
